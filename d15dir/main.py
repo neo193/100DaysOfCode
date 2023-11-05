@@ -1,4 +1,5 @@
 from data import menu, resources
+from decimal import Decimal, getcontext
 
 water = resources["water"]
 milk = resources["milk"]
@@ -58,7 +59,8 @@ def bill(type, resources):
         + (quarters * coins[3])
     )
     if paid > menu[type]["cost"]:
-        change = paid - menu[type]["cost"]
+        getcontext().prec = 3
+        change = float(Decimal(paid) - Decimal(menu[type]["cost"]))
         resources["money"] += menu[type]["cost"]
         print(f"Here is ${change} in change. Enjoy your {type}!.\n")
     elif paid == menu[type]["cost"]:
